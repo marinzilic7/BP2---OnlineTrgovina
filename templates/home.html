@@ -68,7 +68,7 @@
                       ></button>
                     </div>
                     <div class="modal-body">
-                      <form method="POST" action="/dodaj-proizvod" >
+                      <form method="POST" action="/dodaj-proizvod">
                         <div class="mb-3">
                           <label for="recipient-name" class="col-form-label"
                             >Ime proizvoda:</label
@@ -150,7 +150,6 @@
       </div>
     </nav>
 
-
     <table class="table table-success table-striped table-hover mt-5">
       <thead>
         <tr>
@@ -165,37 +164,48 @@
       </thead>
       <tbody>
         {% for proizvodd in proizvod %}
-        <tr >
+        <tr>
           <th scope="row">{{proizvodd.ID_proizvoda}}</th>
           <td>{{ proizvodd.naziv }}</td>
-          <td> {% for kategorija in kategorije %}
-            {% if kategorija.ID_kategorija == proizvodd.ID_kategorija %}
-              {{ kategorija.naziv }}
-            {% endif %}
-          {% endfor %}
-        </td>
+          <td>
+            {% for kategorija in kategorije %} {% if kategorija.ID_kategorija ==
+            proizvodd.ID_kategorija %} {{ kategorija.naziv }} {% endif %} {%
+            endfor %}
+          </td>
           <td>{{ proizvodd.opis }}</td>
           <td>{{ proizvodd.cijena }}</td>
-          <td><form
-            
-          >
-            <input type="hidden" name="ID_food" />
-            <button type="submit" class="btn btn-danger btn-sm">Izbrisi</button>
-          </form></td>
-          <td><form
-            
-          
-          >
-            <input type="hidden" name="ID_food" />
-            <button type="submit" class="btn btn-warning btn-sm">Uredi</button>
-          </form></td>
-          
+          <td>
+            <form
+              action="{{ url_for('izbrisi_proizvod', ID_proizvoda=proizvodd.ID_proizvoda) }}"
+              method="POST"
+            >
+              <input type="hidden" name="ID_proizvoda" />
+              <button type="submit" class="btn btn-danger btn-sm">
+                Izbrisi
+              </button>
+            </form>
+          </td>
+          <td>
+            <form action="{{ url_for('uredi_proizvod', ID_proizvoda=proizvodd.ID_proizvoda) }}">
+              <input type="hidden" name="ID_food" />
+              <button type="submit" class="btn btn-warning btn-sm">
+                Uredi
+              </button>
+            </form>
+          </td>
         </tr>
 
         {% endfor %}
-        
       </tbody>
     </table>
+
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="container mt-3 d-flex justify-content-center Message">
+      {% for message in messages %}
+      <p class="btn btn-success">{{ message }}</p>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script
@@ -203,5 +213,17 @@
       integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const autoRemoveElements =
+          document.querySelectorAll(".Message");
+        autoRemoveElements.forEach(function (element) {
+          setTimeout(function () {
+            element.remove();
+          }, 2000);
+        });
+      });
+    </script>
   </body>
 </html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="container mt-5 p-5 w-25 border">
+        <form method="POST" action="/update_proizvod/{{ proizvod.ID_proizvoda }}">
+            <div class="mb-3">
+                <label for="naziv" class="form-label">Naziv</label>
+                <input type="text" class="form-control" id="naziv" name="naziv" value="{{ proizvod.naziv }}">
+            </div>
+            <div class="mb-3">
+                <label for="opis" class="form-label">Opis</label>
+                <input type="text" class="form-control" id="opis" name="opis" value="{{ proizvod.opis }}">
+            </div>
+            <div class="mb-3">
+                <label for="kategorija_id" class="form-label">Kategorija</label>
+                <select class="form-select" id="kategorija_id" name="kategorija_id">
+                    {% for kategorija in kategorije %}
+                        <option value="{{ kategorija.ID_kategorija }}" {% if kategorija.ID_kategorija == proizvod.ID_kategorija %}selected="selected"{% endif %}>{{ kategorija.naziv }}</option>
+                    {% endfor %}
+                </select>
+                
+            </div>
+            <div class="mb-3">
+                <label for="cijena" class="form-label">Cijena</label>
+                <input type="number" class="form-control" id="cijena" name="cijena" value="{{ proizvod.cijena }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Uredi proizvod</button>
+        </form>
+
+    </div>
+  
+
+ 
+    
+</body>
+</html>
